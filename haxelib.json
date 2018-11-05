@@ -1,0 +1,19 @@
+{
+  "name": "LDGine",
+  "description": "LDGine - a Heaps engine built to use for Ludum Dare jams.",
+  "dependencies": {
+    "yatl": "",
+    "heaps": "",
+    "msignal": ""
+  },
+  "license": "MIT",
+  "tags": [
+    "engine", "heaps"
+  ],
+  "url": "https://github.com/yanrishatum/ldgine",
+  "version": "1.0.0",
+  "releasenote": "Initial release",
+  "contributors": [
+    "Yanrishatum", "ZeusDex"
+  ]
+}

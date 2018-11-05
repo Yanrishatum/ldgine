@@ -1,0 +1,9 @@
+-lib heaps
+-lib hldx
+-lib msignal
+-lib yatl
+-cp .
+-cp test
+-main Main
+-D windowSize=1280x720
+-hl test/csource/hl.c

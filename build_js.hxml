@@ -1,0 +1,8 @@
+-lib heaps
+-lib msignal
+-lib yatl
+-cp .
+-cp test
+-main Main
+-D resourcesPath=res;test/res
+-js test/test.js

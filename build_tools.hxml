@@ -1,0 +1,10 @@
+-lib heaps
+-lib hldx
+-lib msignal
+-lib yatl
+-cp .
+-cp test
+--each
+
+-main PartsDesigner
+-hl test/partsdesigner.hl

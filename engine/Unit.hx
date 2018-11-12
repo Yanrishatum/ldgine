@@ -18,6 +18,8 @@ class Unit
   
   public var scene:LDScene;
   
+  public var componentCount(get, null):Int;
+  
   public function new()
   {
     comps = new Array();
@@ -28,6 +30,11 @@ class Unit
   {
     v.addChild(this);
     return v;
+  }
+  
+  inline function get_componentCount():Int
+  {
+    return comps.length;
   }
   
   public function update():Void
@@ -124,7 +131,8 @@ class Unit
     if (u.parent != this)
     {
       if (u.parent != null) u.parent.removeChild(u);
-      children.prev = u;
+      if (children != null)
+        children.prev = u;
       u.next = children;
       u._parent = this;
       children = u;

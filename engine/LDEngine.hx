@@ -38,9 +38,11 @@ class LDEngine extends App
       {
         _scene.end();
         _scene.sceneRemoved();
+        _scene.scene = null;
       }
       _scene = _switchScene;
       _switchScene = null;
+      _scene.scene = _scene;
       _scene.sceneAdded();
       _scene.begin();
     }

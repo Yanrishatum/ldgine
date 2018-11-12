@@ -15,7 +15,6 @@ class LDScene extends Unit
   public function new()
   {
     super();
-    scene = this;
   }
   
   public function begin():Void

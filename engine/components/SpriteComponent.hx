@@ -12,7 +12,7 @@ class SpriteComponent extends Component
   public function new(?sprite:Object)
   {
     type = ComponentType.Graphics;
-    if (sprite != null) sprite = new Object();
+    if (sprite == null) sprite = new Object();
     this.sprite = sprite;
     this.interactive = Std.instance(sprite, Interactive);
   }

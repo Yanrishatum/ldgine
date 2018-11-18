@@ -73,14 +73,20 @@ class DebugDisplay
   private static var active:Bool;
   private static var compactMode:Bool;
   
+  private static var frameTexts:List<Text>;
+  private static var framePool:List<Text>;
+  
   public static function init():Void
   {
     active = true;
     groupStack = new Array();
     monitor = new Array();
     immediate = new Array();
+    frameTexts = new List();
+    framePool = new List();
     font = DefaultFont.get();
-    flow = new h2d.Flow(LD.engine.s2d);
+    flow = new h2d.Flow();
+    LD.engine.s2d.addChildAt(flow, 10);
     flow.isVertical = true;
     flow.verticalSpacing = 2;
     haxe.MainLoop.add(update);
@@ -89,6 +95,30 @@ class DebugDisplay
   private static function update():Void
   {
     for (i in immediate) i.invalidate();
+    for (t in frameTexts)
+    {
+      t.visible = false;
+      framePool.add(t);
+    }
+    frameTexts.clear();
+  }
+  
+  public static function textAt(x:Float, y:Float, str:String)
+  {
+    var text = framePool.pop();
+    if (text == null)
+    {
+      text = new Text(font);
+      LD.engine.s2d.addChildAt(text, 10);
+    }
+    text.visible = true;
+    text.text = str;
+    text.x = x;
+    text.y = y - text.textHeight;
+    var diff = text.x + text.textWidth - LD.engine.s2d.width;
+    if (diff > 0) text.x -= diff;
+    if (text.y < 0) text.y = 0;
+    frameTexts.push(text);
   }
   
   public static function invalidate():Void

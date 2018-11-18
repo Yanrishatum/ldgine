@@ -6,11 +6,19 @@ import engine.components.ComponentType;
 @:allow(engine.LDEngine)
 class Unit
 {
+  public static inline function fromComponent(c:Component):Unit
+  {
+    var u = new Unit();
+    u.add(c);
+    return u;
+  }
+  
   private var _compDirty:Bool;
   private var comps:Array<Component>;
   private var _parent:Unit;
   public var parent(get, set):Unit;
   private var children:Unit;
+  private var tail:Unit;
   private var prev:Unit;
   private var next:Unit;
   
@@ -115,6 +123,7 @@ class Unit
       var prev:Unit = u.prev;
       var next:Unit = u.next;
       if (children == u) children = next;
+      if (tail == u) tail = prev;
       if (prev != null) prev.next = next;
       if (next != null) next.prev = prev;
       u.next = null;
@@ -131,11 +140,11 @@ class Unit
     if (u.parent != this)
     {
       if (u.parent != null) u.parent.removeChild(u);
-      if (children != null)
-        children.prev = u;
-      u.next = children;
+      if (tail != null) tail.next = u;
+      u.prev = tail;
       u._parent = this;
-      children = u;
+      if (children == null) children = u;
+      tail = u;
       u.scene = scene;
       u.added();
       if (scene != null) u.sceneAdded();

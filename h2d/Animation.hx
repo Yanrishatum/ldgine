@@ -113,6 +113,11 @@ class Animation extends Drawable {
 
 	var curFrame : Int;
 	var elapsedTime : Float;
+	
+	public var playWhenHidden:Bool = false;
+	
+	public var width(get, never):Int;
+	public var height(get, never):Int;
 
 	/**
 		Create a new animation with the specified frames and parent object
@@ -131,6 +136,11 @@ class Animation extends Drawable {
 		this.frames = frames == null ? [] : frames;
 		currentFrame = atFrame;
 		pause = false;
+	}
+	
+	public function palyAt(frame:Int = 0) {
+		pause = false;
+		currentFrame = frame;
 	}
 
 	/**
@@ -167,6 +177,18 @@ class Animation extends Drawable {
 		elapsedTime = 0;
 		return curFrame;
 	}
+	
+	inline function get_width() {
+		var s = 0;
+		for (f in frames) if (f.tile != null) s = hxd.Math.imax(f.tile.width, s);
+		return s;
+	}
+	
+	inline function get_height() {
+		var s = 0;
+		for (f in frames) if (f.tile != null) s = hxd.Math.imax(f.tile.height, s);
+		return s;
+	}
 
 	override function getBoundsRec( relativeTo : Object, out : h2d.col.Bounds, forSize : Bool ) {
 		super.getBoundsRec(relativeTo, out, forSize);
@@ -176,7 +198,7 @@ class Animation extends Drawable {
 
 	override function sync( ctx : RenderContext ) {
 		super.sync(ctx);
-		if (pause || frames.length < 2) return;
+		if (pause || frames.length < 2 || (!visible && !playWhenHidden)) return;
 
 		var oldFrame : Int = curFrame;
 		var newFrame : Int = oldFrame;
